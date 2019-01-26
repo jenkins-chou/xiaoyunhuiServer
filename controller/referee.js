@@ -9,7 +9,7 @@ var tableName = "referee";//表名
 
 //获取所有数据
 router.post('/getReferees', function (req, res) {
-    var sql = "select * from "+tableName+" a,User b where a.user_id = b.user_id";
+    var sql = "select * from "+tableName+" a,user b where a.user_id = b.user_id";
     connectDB.query(sql,function(result){
         return res.jsonp(result);
     })
