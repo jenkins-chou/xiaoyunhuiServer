@@ -86,14 +86,12 @@ function connectDB(){
                 var result = {
                     "status":"500",
                     "message":"服务器错误",
-                    "error":error
                 }
                 callback(result);
             }else{
                 var result = {
                     "status":"200",
                     "message":"success",
-                    "data":data
                 }
                 callback(result);
             }
