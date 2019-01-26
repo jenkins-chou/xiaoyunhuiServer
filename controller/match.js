@@ -27,7 +27,7 @@ router.post('/getmatch',function (req, res) {
 //根据类型获取比赛
 router.post('/getmatchByType',function (req, res) {
     var match_type = req.body.match_type;//获取请求参数中的match_id
-    var sql = "select * from matchs where match_type = "+match_type +" and match_del != 'delete'";
+    var sql = "select * from matchs where match_type = '"+match_type +"' and match_del != 'delete'";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
