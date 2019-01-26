@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50725
 File Encoding         : 65001
 
-Date: 2019-01-26 19:55:28
+Date: 2019-01-26 20:15:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,5 +34,6 @@ CREATE TABLE `matchs` (
   `match_del` varchar(255) DEFAULT NULL,
   `match_type` varchar(255) DEFAULT NULL,
   `match_img` varchar(255) DEFAULT NULL,
+  `match_address` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`match_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
