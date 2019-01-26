@@ -26,7 +26,13 @@ router.post('/getmatch',function (req, res) {
 
 
 
-//添加用户
+//添加比赛
+/*match_status：
+比赛状态：
+1：募集比赛人员
+2：比赛中
+3：比赛完毕
+*/
 router.post('/addmatch', function (req, res) {
     var sql = "insert into matchs(match_title,match_time,match_create_time,match_referee_id,match_manager,match_abstract,match_detail,match_athletes_num,match_status,match_organizers,match_del) value (?,?,?,?,?,?,?,?,?,?,?)";
     var sqlparams = [
