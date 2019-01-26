@@ -46,8 +46,8 @@ router.post('/addmatch', function (req, res) {
         req.body.match_athletes_num,
         req.body.match_status,
         req.body.match_organizers,
-        req.body.match_type,
-        'normal'
+        'normal',
+        req.body.match_type
     ]
     connectDB.add(sql,sqlparams,function(result){
         console.log(result);
