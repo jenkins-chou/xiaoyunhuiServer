@@ -9,13 +9,12 @@ var tableName = "match_type";//表名
 
 //获取所有数据
 router.post('/getAllMatchType', function (req, res) {
-    var sql = "select * from "+tableName+"";
+    var sql = "select * from "+tableName+" where match_type_del != 'delete'";
     connectDB.query(sql,function(result){
         return res.jsonp(result);
     })
 });
 
-//根据id获取用户信息
 router.post('/getMatchType',function (req, res) {
     var match_type_id = req.body.match_type_id;//获取请求参数中的user_id
     var sql = "select * from "+tableName+" where match_type_id = "+match_type_id +" and match_type_del != 'delete'";
