@@ -52,7 +52,7 @@ router.post('/addMatchType', function (req, res) {
             connectDB.add(sql,sqlparams,function(result){
                 console.log(result);
                 if (result.status=="200") {
-                    var sqlQueryAgain = "select * from "+tableName+" where match_type_name = '" + req.body.match_type_name+"'";
+                    var sqlQueryAgain = "select * from "+tableName+" where match_type_name = '" + req.body.match_type_name+"'"+" and match_type_del != 'delete'";
                     connectDB.query(sqlQueryAgain,function(resultAgain){
                         return res.jsonp(resultAgain);
                     })

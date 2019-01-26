@@ -50,7 +50,7 @@ router.post('/adduser', function (req, res) {
         req.body.user_email,
         req.body.user_health,
         req.body.user_address,
-        req.body.user_type,
+        '1',//1为队员 or 领队 2：裁判员 3：管理员
         req.body.user_status,
         req.body.user_create_time,
         req.body.user_remark,
