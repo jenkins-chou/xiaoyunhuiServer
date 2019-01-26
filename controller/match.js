@@ -24,6 +24,16 @@ router.post('/getmatch',function (req, res) {
     });
 });
 
+//根据类型获取比赛
+router.post('/getmatchByType',function (req, res) {
+    var match_type = req.body.match_type;//获取请求参数中的match_id
+    var sql = "select * from matchs where match_type = "+match_type +"match_del != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
 
 
 //添加比赛
@@ -34,7 +44,7 @@ router.post('/getmatch',function (req, res) {
 3：比赛完毕
 */
 router.post('/addmatch', function (req, res) {
-    var sql = "insert into matchs(match_title,match_time,match_create_time,match_referee_id,match_manager,match_abstract,match_detail,match_athletes_num,match_status,match_organizers,match_del,match_type,match_img) value (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    var sql = "insert into matchs(match_title,match_time,match_create_time,match_referee_id,match_manager,match_abstract,match_detail,match_athletes_num,match_status,match_organizers,match_del,match_type,match_img,match_address) value (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     var sqlparams = [
         req.body.match_title,
         req.body.match_time,
@@ -48,7 +58,8 @@ router.post('/addmatch', function (req, res) {
         req.body.match_organizers,
         'normal',
         req.body.match_type,
-        req.body.match_img
+        req.body.match_img,
+        req.body.match_address
     ]
     connectDB.add(sql,sqlparams,function(result){
         console.log(result);
