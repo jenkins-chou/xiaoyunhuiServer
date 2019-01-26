@@ -35,7 +35,7 @@ app.post('/uploadImg',mutipartMiddeware,function (req,res) {
       "status":'200',
       "message":'上传成功',
       "data":[{
-        // "path":req.files.myfile.path
+        "path":req.files.uploadFile.path
       }]
     }
     console.log(result);
