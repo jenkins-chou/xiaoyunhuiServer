@@ -36,7 +36,7 @@ router.post('/addMatchType', function (req, res) {
         req.body.match_type_create_time,
         'normal' //delete 状态
     ]
-    var sqlQuery = "select * from "+tableName+" where match_type_name = '" + req.body.match_type_name+"'"+" where match_type_del != 'delete'";//用于查询是否存在同名用户的
+    var sqlQuery = "select * from "+tableName+" where match_type_name = '" + req.body.match_type_name+"'"+" and match_type_del != 'delete'";//用于查询是否存在同名用户的
     connectDB.query(sqlQuery,function(result){
         console.log(result);
         if(result.data[0]!=null){
