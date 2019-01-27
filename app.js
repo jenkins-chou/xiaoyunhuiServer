@@ -44,6 +44,8 @@ app.use('/userMatch',userMatchController)
 app.use('/userTeam',userTeamController)
 app.use('/upload',uploadController)
 
+app.use(express.static(path.join(__dirname, 'upload')))
+
 app.listen(8888)
 console.log("数据服务器已打开, 端口: 8888");
 
