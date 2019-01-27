@@ -2,6 +2,7 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
+var path = require('path');
 
 //路由列表
 var user = require("./controller/user")
