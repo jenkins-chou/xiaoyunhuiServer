@@ -18,7 +18,7 @@ router.post('/login',function (req, res) {
     var user_pass = req.body.user_pass;
     console.log(req);
     console.log(res);
-    var sql = "select * from user where user_name = '"+user_name+"' and user_pass = '"+user_pass+"' where user_del != 'delete'";
+    var sql = "select * from user where user_name = '"+user_name+"' and user_pass = '"+user_pass+"' and user_del != 'delete'";
     connectDB.query(sql,function(result){
         //result.data[0]!=null;
         return res.jsonp(result);
