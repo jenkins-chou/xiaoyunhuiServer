@@ -91,7 +91,7 @@ var fileServer = http.createServer(function(req, res){
 		res.end();
 	  	console.log("文件不存在");
 	  }
-	}
+	});
 	
 });
 fileServer.listen(9999);
