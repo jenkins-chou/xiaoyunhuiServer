@@ -40,7 +40,7 @@ app.post('/uploadImg',mutipartMiddeware,function (req,res) {
     }
     console.log(result);
     //给浏览器返回一个成功提示。
-    res.send(result);
+    res.send(req.files.uploadFile.path);
 });
 
 module.exports = app;
