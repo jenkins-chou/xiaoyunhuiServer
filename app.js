@@ -68,20 +68,23 @@ var fileServer = http.createServer(function(req, res){
 	//5.从解析后的对象中获取到pathname(这里pathObj.pathname是/index.html)
 	var filePath = path.join(staticPath, pathObj.pathname);   //path.join方法，拼接完整项目目录地址。
 	//6.fileContent拼接后的项目目录名字（这里是E:\subject\act\index.html）
-			
-	fs.exists(filePath,function(exists){
-	  if(exists){
-	  	//fs.readFileSync方法，同步读取文件信息														  
+		
 		var fileContent = fs.readFileSync(filePath,'binary');	  //读取拼接完整后的目录中的文件， 'binary'表示二进制方式读取	
 		res.write(fileContent,'binary');
-		res.end();
-	     console.log("文件存在")
-	  }else{
-	  	res.write("",'binary');
 		res.end();	
-	  	console.log("文件不存在")
-	  }
-	});
+	// fs.exists(filePath,function(exists){
+	//   if(exists){
+	//   	//fs.readFileSync方法，同步读取文件信息														  
+	// 	var fileContent = fs.readFileSync(filePath,'binary');	  //读取拼接完整后的目录中的文件， 'binary'表示二进制方式读取	
+	// 	res.write(fileContent,'binary');
+	// 	res.end();
+	//      console.log("文件存在")
+	//   }else{
+	//   	res.write("",'binary');
+	// 	res.end();	
+	//   	console.log("文件不存在")
+	//   }
+	// });
 	
 });
 fileServer.listen(9999);
