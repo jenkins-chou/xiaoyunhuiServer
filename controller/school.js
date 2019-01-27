@@ -26,8 +26,6 @@ router.post('/getSchool',function (req, res) {
     });
 });
 
-
-
 //添加
 router.post('/addSchool', function (req, res) {
     var sql = "insert into "+tableName+"(school_logo,school_name,school_create_time,school_address,school_manager,school_abstract,school_detail,school_remark,school_del) value (?,?,?,?,?,?,?,?,?)";
