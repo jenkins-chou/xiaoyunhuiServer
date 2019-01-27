@@ -24,6 +24,16 @@ router.post('/getmatch',function (req, res) {
     });
 });
 
+//根据id获取比赛详情信息
+router.post('/getmatchDetail',function (req, res) {
+    var match_id = req.body.match_id;//获取请求参数中的match_id
+    var sql = "select a.*,b.match_type_name,d.user_name,e.* from matchs a,match_type b,referee c,user d,school e where a.match_id = "+match_id +" and a.match_del != 'delete' and a.match_type = b.match_type_id and c.user_id = d.user_id and a.match_referee_id = c.referee_id and a.match_organizers = e.school_id; "
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
 //根据类型获取比赛
 router.post('/getmatchByType',function (req, res) {
     var match_type = req.body.match_type;//获取请求参数中的match_id
