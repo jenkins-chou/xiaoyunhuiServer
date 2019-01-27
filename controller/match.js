@@ -8,10 +8,20 @@ connectDB = new connectDB();
 
 //获取所有数据
 router.post('/getmatchs', function (req, res) {
-    var sql = "select * from matchs where match_del != 'delete'";
+    var sql = "select a.*,b.referee_name from matchs a,referee b where match_del != 'delete' and a.match_referee_id = b.referee_id";
     connectDB.query(sql,function(result){
         return res.jsonp(result);
     })
+});
+
+//根据status获取比赛信息
+router.post('/getmatchByStatus',function (req, res) {
+    var match_id = req.body.match_id;//获取请求参数中的match_id
+    var sql = "select * from matchs where match_status = "+match_status +" and match_del != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
 });
 
 //根据id获取比赛信息
