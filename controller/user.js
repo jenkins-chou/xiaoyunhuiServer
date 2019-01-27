@@ -5,13 +5,20 @@ var url = require('url');
 var connectDB = require('../tool/connectDB');
 connectDB = new connectDB();
 
+
+/*
+角色类型:
+1 : 队员/领队
+2 : 裁判员
+3 : 管理员
+*/
 //登录函数
 router.post('/login',function (req, res) {
     var user_name = req.body.user_name;
     var user_pass = req.body.user_pass;
     console.log(req);
     console.log(res);
-    var sql = "select * from user where user_name = '"+user_name+"' and user_pass = '"+user_pass+"'";
+    var sql = "select * from user where user_name = '"+user_name+"' and user_pass = '"+user_pass+"' where user_del != 'delete'";
     connectDB.query(sql,function(result){
         //result.data[0]!=null;
         return res.jsonp(result);
@@ -19,7 +26,7 @@ router.post('/login',function (req, res) {
 });
 //获取所有用户数据
 router.post('/getusers', function (req, res) {
-    var sql = "select * from user";
+    var sql = "select * from user where user_del != 'delete'";
     connectDB.query(sql,function(result){
         return res.jsonp(result);
     })
@@ -57,7 +64,6 @@ router.post('/adduser', function (req, res) {
         'normal', //user_del 状态
         req.body.user_school,
         req.body.user_class,
-        
     ]
     var sqlQuery = "select * from user where user_name = '" + req.body.user_name+"'";//用于查询是否存在同名用户的
     connectDB.query(sqlQuery,function(result){
