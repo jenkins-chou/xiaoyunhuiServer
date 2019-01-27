@@ -8,7 +8,7 @@ connectDB = new connectDB();
 
 //获取所有数据
 router.post('/getmatchs', function (req, res) {
-    var sql = "select a.*,b.referee_name from matchs a,referee b where match_del != 'delete' and a.match_referee_id = b.referee_id";
+    var sql = "select * from matchs where match_del != 'delete'";
     connectDB.query(sql,function(result){
         return res.jsonp(result);
     })
