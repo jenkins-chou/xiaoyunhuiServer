@@ -73,7 +73,7 @@ var fileServer = http.createServer(function(req, res){
 	  if(exists){
 	  	//fs.readFileSync方法，同步读取文件信息														  
 		var fileContent = fs.readFileSync(filePath,'binary');	  //读取拼接完整后的目录中的文件， 'binary'表示二进制方式读取	
-		res.write(data.toString(),'binary');
+		res.write(fileContent,'binary');
 		res.end();	
 	 //     console.log("文件存在")
 	 //     fs.readFile(filePath, function (err, data) {
