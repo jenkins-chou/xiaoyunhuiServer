@@ -26,6 +26,15 @@ router.post('/getUserMatch',function (req, res) {
     });
 });
 
+//根据match_id获取报名信息
+router.post('/getUserMatchByMatchId',function (req, res) {
+    var sql = "select * from "+tableName+" where match_id = "+req.body.match_id +" and "+tableDelete+" != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
 
 
 //添加
