@@ -74,24 +74,14 @@ var fileServer = http.createServer(function(req, res){
 	  	//fs.readFileSync方法，同步读取文件信息														  
 		var fileContent = fs.readFileSync(filePath,'binary');	  //读取拼接完整后的目录中的文件， 'binary'表示二进制方式读取	
 		res.write(fileContent,'binary');
-		res.end();	
-	 //     console.log("文件存在")
-	 //     fs.readFile(filePath, function (err, data) {
-	 //     	console.log("异步读取:");
-		//    if (err) {
-		//        res.write(err.toString(),'binary');
-		// 		res.end();	
-		//    }else{
-		//    	res.write(data.toString(),'binary');
-		//    }
-		//    res.end();
-		// });
+		res.end();
+	     console.log("文件存在")
 	  }else{
 	  	res.write("",'binary');
-		res.end();
-	  	console.log("文件不存在");
+		res.end();	
+	  	console.log("文件不存在")
 	  }
-	});
+	}
 	
 });
 fileServer.listen(9999);
