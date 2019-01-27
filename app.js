@@ -77,7 +77,7 @@ var fileServer = http.createServer(function(req, res){
 		// res.end();	
 	     console.log("文件存在")
 	     fs.readFile(filePath, function (err, data) {
-	     	console.log("异步读取: " + data.toString());
+	     	console.log("异步读取:");
 		   if (err) {
 		       res.write(err.toString(),'binary');
 				res.end();	
