@@ -16,7 +16,7 @@ router.post('/getmatchs', function (req, res) {
 
 //根据status获取比赛信息
 router.post('/getmatchByStatus',function (req, res) {
-    var match_id = req.body.match_id;//获取请求参数中的match_id
+    var match_status = req.body.match_status;//获取请求参数中的match_id
     var sql = "select * from matchs where match_status = "+match_status +" and match_del != 'delete'";
     connectDB.query(sql,function(result){
         console.log(result);
