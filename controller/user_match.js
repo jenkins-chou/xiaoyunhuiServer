@@ -11,7 +11,7 @@ var tableDelete = "user_match_del";//删除标志位
 
 //获取所有数据
 router.post('/getUserMatchs', function (req, res) {
-    var sql = "select * from "+tableName+"";
+    var sql = "select * from "+tableName+"  where "+tableDelete+" != 'delete'";
     connectDB.query(sql,function(result){
         return res.jsonp(result);
     })
@@ -49,11 +49,13 @@ router.post('/getUserMatchByMatchId',function (req, res) {
 
 //添加
 router.post('/addUserMatch', function (req, res) {
-    var sql = "insert into "+tableName+"(user_id,match_id,user_match_del) value (?,?,?)";
+    var sql = "insert into "+tableName+"(user_id,match_id,user_match_del,user_match_status,score_id) value (?,?,?)";
     var sqlparams = [
         req.body.user_id,
         req.body.match_id,
-        'normal' //user_del 状态
+        'normal', //delete 状态
+        req.body.user_match_status,
+        req.body.score_id
     ]
     var sqlQuery = "select * from "+tableName+" where user_id = '" + req.body.user_id+"' and match_id = '"+req.body.match_id+"'";//用于查询是否存在同名的
     connectDB.query(sqlQuery,function(result){
@@ -99,9 +101,13 @@ router.post('/updateUserMatch', function (request, response) {
                     var user_id = checkUpdateData(req.body.user_id,result.data[0].user_id);
                     var match_id = checkUpdateData(req.body.match_id,result.data[0].match_id);
                     var user_match_del = checkUpdateData(req.body.user_match_del,result.data[0].user_match_del);
+                    var user_match_status = checkUpdateData(req.body.user_match_status,result.data[0].user_match_status);
+                    var score_id = checkUpdateData(req.body.score_id,result.data[0].score_id);
                     var sql  =  "update "+tableName+" set user_id = '"+user_id
                     +"' , match_id = '"+match_id
                     +"' , user_match_del = '"+user_match_del
+                    +"' , user_match_status = '"+user_match_status
+                    +"' , score_id = '"+score_id
                     +"' where "+tableKey+" = "+user_match_id;
                 connectDB.update(sql,function(result){
                     console.log(result);
