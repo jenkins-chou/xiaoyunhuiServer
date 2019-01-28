@@ -81,7 +81,7 @@ router.post('/adduser', function (req, res) {
             connectDB.add(sql,sqlparams,function(result){
                 console.log(result);
                 if (result.status=="200") {
-                    var sqlQueryAgain = "select * from user where user_name = '" + req.body.user_name+"'";
+                    var sqlQueryAgain = "select * from user where user_name = '" + req.body.user_name+"'  and user_del != 'delete'";
                     connectDB.query(sqlQueryAgain,function(resultAgain){
                         return res.jsonp(resultAgain);
                     })
