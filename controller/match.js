@@ -54,7 +54,15 @@ router.post('/getmatchByType',function (req, res) {
     });
 });
 
-
+//根据userid获取比赛
+router.post('/getmatchByUserId',function (req, res) {
+    var user_id = req.body.user_id;//获取请求参数中的match_id
+    var sql = "select * FROM matchs where match_id = any(select match_id from user_match where user_id = '"+user_id+"')GROUP BY match_id";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
 
 //添加比赛
 /*match_status：
@@ -83,7 +91,7 @@ router.post('/addmatch', function (req, res) {
     ]
     connectDB.add(sql,sqlparams,function(result){
         console.log(result);
-        return res.jsonp(result); 
+        return res.jsonp(result);
     })
 });
 //更新用户信息
