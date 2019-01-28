@@ -67,7 +67,7 @@ router.post('/getmatchByUserId',function (req, res) {
 //根据refereeid获取比赛
 router.post('/getmatchByRefereeId',function (req, res) {
     var referee_id = req.body.referee_id;//获取请求参数中的match_id
-    var sql = "select * FROM matchs where match_referee_id = '"+referee_id+"'";
+    var sql = "select * FROM matchs where match_referee_id = '"+referee_id+"' and match_del != 'delete'";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
@@ -88,7 +88,7 @@ router.post('/searchmatch',function (req, res) {
 //添加比赛
 /*match_status：
 比赛状态：
-1：募集比赛人员
+1：报名中
 2：比赛中
 3：比赛完毕
 */
