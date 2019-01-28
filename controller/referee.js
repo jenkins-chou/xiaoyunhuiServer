@@ -9,7 +9,7 @@ var tableName = "referee";//表名
 
 //获取所有数据
 router.post('/getReferees', function (req, res) {
-    var sql = "select * from "+tableName+" a,user b where a.user_id = b.user_id";
+    var sql = "select * from "+tableName+" a,user b where a.user_id = b.user_id and referee_del != 'delete'";
     connectDB.query(sql,function(result){
         return res.jsonp(result);
     })
@@ -18,6 +18,19 @@ router.post('/getReferees', function (req, res) {
 //根据id获取信息
 router.post('/getReferee',function (req, res) {
     var sql = "select * from "+tableName+" where referee_id = "+req.body.referee_id +" and referee_del != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
+//根据状态获取裁判员
+/*
+1:申请中
+2:已成为裁判
+*/
+router.post('/getRefereeByStatus',function (req, res) {
+    var sql = "select * from "+tableName+" where referee_status = "+req.body.referee_status +" and referee_del != 'delete'";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
