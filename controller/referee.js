@@ -30,7 +30,7 @@ router.post('/getReferee',function (req, res) {
 2:已成为裁判
 */
 router.post('/getRefereeByStatus',function (req, res) {
-    var sql = "select * from "+tableName+" where referee_status = "+req.body.referee_status +" and referee_del != 'delete'";
+    var sql = "select * from "+tableName+"a,user b where a.user_id = b.user_id and referee_status = "+req.body.referee_status +" and referee_del != 'delete'";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
