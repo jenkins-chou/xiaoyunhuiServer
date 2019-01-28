@@ -65,7 +65,7 @@ router.post('/adduser', function (req, res) {
         req.body.user_school,
         req.body.user_class,
     ]
-    var sqlQuery = "select * from user where user_name = '" + req.body.user_name+"'";//用于查询是否存在同名用户的
+    var sqlQuery = "select * from user where user_name = '" + req.body.user_name+"' where user_del != 'delete'";//用于查询是否存在同名用户的
     connectDB.query(sqlQuery,function(result){
         console.log(result);
         if(result.data[0]!=null){
