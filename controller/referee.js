@@ -81,7 +81,11 @@ router.post('/updateReferee', function (request, response) {
     var referee_id = req.body.referee_id;
 
     if (referee_id==null) {
-        return res.jsonp("referee_id is null! please check!");
+        var result = {
+                    "status": "201",
+                    "message": "请确认信息正确性"
+        }
+        return res.jsonp(result);
     }
     //console.log("hahahhah");
     connectDB.query("select * from "+tableName+" where referee_id = "+referee_id,function(result){
@@ -99,7 +103,7 @@ router.post('/updateReferee', function (request, response) {
             }else{
                 var result = {
                     "status": "201",
-                    "message": "failed"
+                    "message": "请确认信息正确性"
                 }
                 return res.jsonp(result);
             }
