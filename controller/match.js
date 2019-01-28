@@ -57,7 +57,7 @@ router.post('/getmatchByType',function (req, res) {
 //根据userid获取比赛
 router.post('/getmatchByUserId',function (req, res) {
     var user_id = req.body.user_id;//获取请求参数中的match_id
-    var sql = "select * FROM matchs where match_id = any(select match_id from user_match where user_id = '"+user_id+"')GROUP BY match_id";
+    var sql = "select * FROM matchs where match_del !='delete' and match_id = any(select match_id from user_match where user_id = '"+user_id+"')GROUP BY match_id";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
