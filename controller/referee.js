@@ -96,10 +96,17 @@ router.post('/updateReferee', function (request, response) {
                     var referee_status = checkUpdateData(req.body.referee_status,result.data[0].referee_status);
                     var referee_manager = checkUpdateData(req.body.referee_manager,result.data[0].referee_manager);
                     var sql  =  "update "+tableName+" set user_id = '"+user_id+"' , referee_status = '"+referee_status+"' , referee_manager = '"+referee_manager+"' where user_id = "+user_id;
+                    var sql2 = "update user set user_type = '2' where user_id = '"+user_id+"'";
+                
                 connectDB.update(sql,function(result){
                     console.log(result);
-                    return res.jsonp(result);
+                    connectDB.update(sql2,function(result){
+                        console.log(result);
+                        return res.jsonp(result);
+                    })
                 })
+
+
             }else{
                 var result = {
                     "status": "201",
