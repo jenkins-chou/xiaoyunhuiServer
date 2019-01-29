@@ -123,7 +123,10 @@ router.post('/updateuser', function (request, response) {
                     var sql  =  "update user set user_name = '"+user_name+"' , user_pass = '"+user_pass+"' , user_real_name = '"+user_real_name+"' , user_avatar_url = '"+user_avatar_url+"', user_health = '"+user_health+"' , user_phone = '"+user_phone+"' , user_email = '"+user_email+"' , user_address = '"+user_address+"' , user_slogan = '"+user_slogan+"' , user_status = '"+user_status+"' , user_create_time = '"+user_create_time+"' , user_remark = '"+user_remark+"' , user_del = '"+user_del+"' where user_id = "+user_id;
                 connectDB.update(sql,function(result){
                     console.log(result);
-                    return res.jsonp(result);
+                    var sqlQueryAgain = "select * from user where user_id = '" + req.body.user_id+"' and user_del != 'delete'";
+                    connectDB.query(sqlQueryAgain,function(resultAgain){
+                        return res.jsonp(resultAgain);
+                    })
                 })
             }else{
                 return res.jsonp('没有数据');

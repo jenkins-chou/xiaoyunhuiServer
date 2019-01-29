@@ -67,7 +67,7 @@ router.post('/getmatchByUserId',function (req, res) {
 //根据refereeid获取比赛
 router.post('/getmatchByRefereeId',function (req, res) {
     var user_id = req.body.user_id;//获取请求参数中的match_id
-    var sql = "select * FROM matchs where match_del != 'delete' and match_referee_id = (select referee_id from referee where user_id = '"+user_id+"')";
+    var sql = "select * FROM matchs where match_del != 'delete' and match_referee_id = any(select referee_id from referee where user_id = '"+user_id+"')";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
