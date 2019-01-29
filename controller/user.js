@@ -110,6 +110,7 @@ router.post('/updateuser', function (request, response) {
                     var user_name = checkUpdateData(req.body.user_name,result.data[0].user_name);
                     var user_pass = checkUpdateData(req.body.user_pass,result.data[0].user_pass);
                     var user_real_name = checkUpdateData(req.body.user_real_name,result.data[0].user_real_name);
+                    var user_sex = checkUpdateData(req.body.user_sex,result.data[0].user_sex);
                     var user_avatar_url = checkUpdateData(req.body.user_avatar_url,result.data[0].user_avatar_url);
                     var user_health = checkUpdateData(req.body.user_health,result.data[0].user_health);
                     var user_phone = checkUpdateData(req.body.user_phone,result.data[0].user_phone);
@@ -120,7 +121,25 @@ router.post('/updateuser', function (request, response) {
                     var user_create_time = checkUpdateData(req.body.user_create_time,result.data[0].user_create_time);
                     var user_remark  = checkUpdateData(req.body.user_remark,result.data[0].user_remark);
                     var user_del = checkUpdateData(req.body.user_del,result.data[0].user_del);
-                    var sql  =  "update user set user_name = '"+user_name+"' , user_pass = '"+user_pass+"' , user_real_name = '"+user_real_name+"' , user_avatar_url = '"+user_avatar_url+"', user_health = '"+user_health+"' , user_phone = '"+user_phone+"' , user_email = '"+user_email+"' , user_address = '"+user_address+"' , user_slogan = '"+user_slogan+"' , user_status = '"+user_status+"' , user_create_time = '"+user_create_time+"' , user_remark = '"+user_remark+"' , user_del = '"+user_del+"' where user_id = "+user_id;
+                    var user_school  = checkUpdateData(req.body.user_school,result.data[0].user_school);
+                    var user_class = checkUpdateData(req.body.user_class,result.data[0].user_class);
+                    var sql  =  "update user set user_name = '"+user_name
+                    +"' , user_pass = '"+user_pass
+                    +"' , user_real_name = '"+user_real_name
+                    +"' , user_sex = '"+user_sex
+                    +"' , user_avatar_url = '"+user_avatar_url
+                    +"', user_health = '"+user_health
+                    +"' , user_phone = '"+user_phone
+                    +"' , user_email = '"+user_email
+                    +"' , user_address = '"+user_address
+                    +"' , user_slogan = '"+user_slogan
+                    +"' , user_status = '"+user_status
+                    +"' , user_create_time = '"+user_create_time
+                    +"' , user_remark = '"+user_remark
+                    +"' , user_del = '"+user_del
+                    +"' , user_school = '"+user_school
+                    +"' , user_class = '"+user_class
+                    +"' where user_id = "+user_id;
                 connectDB.update(sql,function(result){
                     console.log(result);
                     var sqlQueryAgain = "select * from user where user_id = '" + req.body.user_id+"' and user_del != 'delete'";
