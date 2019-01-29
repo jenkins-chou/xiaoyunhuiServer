@@ -140,6 +140,8 @@ router.post('/updateuser', function (request, response) {
                     +"' , user_school = '"+user_school
                     +"' , user_class = '"+user_class
                     +"' where user_id = "+user_id;
+
+                    console.log(sql);
                 connectDB.update(sql,function(result){
                     console.log(result);
                     var sqlQueryAgain = "select * from user where user_id = '" + req.body.user_id+"' and user_del != 'delete'";
@@ -169,6 +171,7 @@ router.post('/deleteuser', function (req, res) {
 });
 //更新时，用于校验是否是否有更新字段值
 function checkUpdateData(target,current){
+    console.log(target,current);
     if (target == null||target =="") {
         return current;
     }else if(target !=null||target !=""){
