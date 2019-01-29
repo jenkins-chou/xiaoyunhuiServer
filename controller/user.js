@@ -111,7 +111,7 @@ router.post('/updateuser', function (request, response) {
                     var user_pass = checkUpdateData(req.body.user_pass,result.data[0].user_pass);
                     var user_realname = checkUpdateData(req.body.user_realname,result.data[0].user_realname);
                     var user_sex = checkUpdateData(req.body.user_sex,result.data[0].user_sex);
-                    var user_avatar_url = checkUpdateData(req.body.user_avatar_url,result.data[0].user_avatar_url);
+                    var user_avatar = checkUpdateData(req.body.user_avatar,result.data[0].user_avatar);
                     var user_health = checkUpdateData(req.body.user_health,result.data[0].user_health);
                     var user_phone = checkUpdateData(req.body.user_phone,result.data[0].user_phone);
                     var user_email = checkUpdateData(req.body.user_email,result.data[0].user_email);
@@ -127,7 +127,7 @@ router.post('/updateuser', function (request, response) {
                     +"' , user_pass = '"+user_pass
                     +"' , user_realname = '"+user_realname
                     +"' , user_sex = '"+user_sex
-                    +"' , user_avatar_url = '"+user_avatar_url
+                    +"' , user_avatar = '"+user_avatar
                     +"', user_health = '"+user_health
                     +"' , user_phone = '"+user_phone
                     +"' , user_email = '"+user_email
