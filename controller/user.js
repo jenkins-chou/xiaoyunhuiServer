@@ -109,7 +109,7 @@ router.post('/updateuser', function (request, response) {
                 console.log(checkUpdateData("dsadsa","adsadsa"));
                     var user_name = checkUpdateData(req.body.user_name,result.data[0].user_name);
                     var user_pass = checkUpdateData(req.body.user_pass,result.data[0].user_pass);
-                    var user_real_name = checkUpdateData(req.body.user_real_name,result.data[0].user_real_name);
+                    var user_realname = checkUpdateData(req.body.user_realname,result.data[0].user_realname);
                     var user_sex = checkUpdateData(req.body.user_sex,result.data[0].user_sex);
                     var user_avatar_url = checkUpdateData(req.body.user_avatar_url,result.data[0].user_avatar_url);
                     var user_health = checkUpdateData(req.body.user_health,result.data[0].user_health);
@@ -125,7 +125,7 @@ router.post('/updateuser', function (request, response) {
                     var user_class = checkUpdateData(req.body.user_class,result.data[0].user_class);
                     var sql  =  "update user set user_name = '"+user_name
                     +"' , user_pass = '"+user_pass
-                    +"' , user_real_name = '"+user_real_name
+                    +"' , user_realname = '"+user_realname
                     +"' , user_sex = '"+user_sex
                     +"' , user_avatar_url = '"+user_avatar_url
                     +"', user_health = '"+user_health
