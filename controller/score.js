@@ -36,6 +36,16 @@ router.post('/getScoreListByUserId',function (req, res) {
     });
 });
 
+//根据user_id获取所有已经出成绩的项目
+router.post('/getScorePublishListByUserId',function (req, res) {
+    var user_id = req.body.user_id;
+    var sql = "select a.match_title,c.* from matchs a,user_match b,score c WHERE c.user_id = "+user_id+" and a.match_id = b.match_id and b.score_id = c.score_id and b.user_match_del != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
 //添加
 router.post('/addScore', function (req, res) {
     var sql = "insert into "+tableName+"(match_id,user_id,referee_id,score_value,score_create_time,score_detail,score_remark,score_publish_time,score_del) value (?,?,?,?,?,?,?,?,?)";
