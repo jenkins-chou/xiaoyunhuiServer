@@ -49,7 +49,7 @@ router.post('/getUserMatchByMatchId',function (req, res) {
 
 //添加
 router.post('/addUserMatch', function (req, res) {
-    var sql = "insert into "+tableName+"(user_id,match_id,user_match_del,user_match_status,score_id) value (?,?,?)";
+    var sql = "insert into "+tableName+"(user_id,match_id,user_match_del,user_match_status,score_id) value (?,?,?,?,?)";
     var sqlparams = [
         req.body.user_id,
         req.body.match_id,
