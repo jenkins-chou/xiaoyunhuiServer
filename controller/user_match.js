@@ -45,16 +45,6 @@ router.post('/getUserMatchByMatchId',function (req, res) {
     });
 });
 
-
-//根据user_id获取报名信息（获取个人报名的所有项目）
-router.post('/getMatchsByUserId',function (req, res) {
-    var sql = "select * from "+tableName+" a,matchs b where user_id = "+req.body.user_id +" and a.match_id = b.match_id and "+tableDelete+" != 'delete'";
-    connectDB.query(sql,function(result){
-        console.log(result);
-        return res.jsonp(result);
-    });
-});
-
 //添加
 router.post('/addUserMatch', function (req, res) {
     var sql = "insert into "+tableName+"(user_id,match_id,user_match_del,user_match_status,score_id) value (?,?,?,?,?)";

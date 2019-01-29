@@ -26,7 +26,15 @@ router.post('/getScore',function (req, res) {
     });
 });
 
-
+//根据user_id获取所有项目
+router.post('/getScoreListByUserId',function (req, res) {
+    var user_id = req.body.user_id;
+    var sql = "select a.*,b.match_title,b.match_time,b.match_athletes_num,b.match_address from user_match a,matchs b where a.user_id = "+user_id +"and a.match_id = b.match_id and a.user_match_del != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
 
 //添加
 router.post('/addScore', function (req, res) {
