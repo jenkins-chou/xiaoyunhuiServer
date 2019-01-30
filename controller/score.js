@@ -47,6 +47,17 @@ router.post('/getScoreListByMatchId',function (req, res) {
 });
 
 
+//获取所有人员的成绩和个人信息
+router.post('/getAllScoreList',function (req, res) {
+    var match_id = req.body.match_id;
+    var sql = "SELECT a.*,b.* from user a,score b where a.user_id = any(select user_id from score) and a.user_id = b.user_id";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
+
 //根据user_id获取所有已经出成绩的项目
 router.post('/getScorePublishListByUserId',function (req, res) {
     var user_id = req.body.user_id;
