@@ -65,8 +65,27 @@ router.post('/addScore', function (req, res) {
                 console.log(result);
                 return res.jsonp(result);
     })
-
 });
+
+//批量添加
+router.post('/addScores', function (req, res) {
+    var sql = req.body.sql;
+    var match_id = req.body.match_id;
+    var sqlModifyMatch = "update matchs set match_status = '4' where match_id = "+match_id;
+    connectDB.excute(sql,function(result){
+        console.log(result);
+        if (result.status=='200') {
+            connectDB.update(sqlModifyMatch,function(resultMatch){
+                    console.log(resultMatch);
+                    return res.jsonp(resultMatch);
+                })
+        }else{
+            return res.jsonp(result);
+        }
+        
+    })
+});
+
 //更新信息
 router.post('/updateScore', function (request, response) {
     var req = request;
@@ -76,7 +95,6 @@ router.post('/updateScore', function (request, response) {
     if (score_id==null) {
         return res.jsonp("user_id is null! please check!");
     }
-    //console.log("hahahhah");
     connectDB.query("select * from "+tableName+" where score_id = "+score_id,function(result){
         if (result.status=="200") {
             if (result.data[0]!=null) {
