@@ -46,7 +46,7 @@ router.post('/getTeamListByCreater',function (req, res) {
 
 //根据user_id获取用户参与的团队列表
 router.post('/getTeamListByUserId',function (req, res) {
-    var sql = "select * from "+tableName+" where user_id = "+req.body.user_id +" and "+tableDelete+" != 'delete'";
+    var sql = "select a.*,b.* from "+tableName+" a,user_team b where team_id = any(select team_id from user_team where user_id = "+req.body.user_id +")";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
