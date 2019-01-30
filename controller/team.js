@@ -26,6 +26,15 @@ router.post('/getTeam',function (req, res) {
     });
 });
 
+//根据team_create_user获取团队列表
+router.post('/getTeamListByCreater',function (req, res) {
+    var sql = "select * from "+tableName+" where team_create_user = "+req.body.team_create_user +" and "+tableDelete+" != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
 
 
 //添加
