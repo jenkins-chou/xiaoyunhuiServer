@@ -36,13 +36,24 @@ router.post('/getUserMatchByUserId',function (req, res) {
 });
 
 
-//根据match_id获取报名信息(获取报名名单)
+//根据match_id获取报名信息(获取所有user_id)
 router.post('/getUserMatchByMatchId',function (req, res) {
     var sql = "select * from "+tableName+" where match_id = "+req.body.match_id +" and "+tableDelete+" != 'delete'";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
     });
+});
+
+//根据match_id获取报名信息(用户详细信息)
+router.post('/getUserMatchDetailByMatchId',function (req, res) {
+    var sql = "select * from user where user_id = any(select user_id from user_match where match_id = "+req.body.match_id +" and "+tableDelete+" != 'delete')";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+
+
 });
 
 //添加
