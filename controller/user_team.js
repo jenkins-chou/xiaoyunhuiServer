@@ -34,7 +34,8 @@ router.post('/getUserTeam',function (req, res) {
 
 //根据team_id获取团队成员
 router.post('/getTeamMember',function (req, res) {
-    var sql = "select * from user where user_id = any(select user_id from user_team where team_id = "+req.body.team_id+")";
+    var user_team_status = req.body.user_team_status;//状态
+    var sql = "select * from user where user_id = any(select user_id from user_team where team_id = "+req.body.team_id+" and user_team_status = '"+user_team_status+"')";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
