@@ -80,7 +80,6 @@ function connectDB(){
         var connection = mysql.createConnection(mysql_setting);
         connection.connect();
         connection.query(sql,function(error,data){
-            connection.connect();
             if (error) {
                 var result = {
                     "status":"500",
