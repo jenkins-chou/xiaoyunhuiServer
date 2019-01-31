@@ -53,6 +53,16 @@ router.post('/getTeamListByUserId',function (req, res) {
     });
 });
 
+//根据user_id获取用户未参与的团队列表
+router.post('/getTeamListExceptUserId',function (req, res) {
+    var user_id = req.body.user_id;
+    var sql = "select * from team where team_create_user != "+user_id+" and team_id != any(select team_id from user_team where user_id = "+user_id+")";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
 
 
 //添加
