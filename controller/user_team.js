@@ -9,6 +9,12 @@ var tableName = "user_team";//表名
 var tableKey = "user_team_id";//主键
 var tableDelete = "user_team_del";//删除标志位
 
+/*
+
+user_team_status：
+1:待审核队员
+2：正式队员
+*/
 //获取所有数据
 router.post('/getUserTeams', function (req, res) {
     var sql = "select * from "+tableName+"";
@@ -37,11 +43,12 @@ router.post('/getTeamMember',function (req, res) {
 
 //添加
 router.post('/addUserTeam', function (req, res) {
-    var sql = "insert into "+tableName+"(user_id,team_id,user_team_del) value (?,?,?)";
+    var sql = "insert into "+tableName+"(user_id,team_id,user_team_del,user_team_status) value (?,?,?)";
     var sqlparams = [
         req.body.user_id,
         req.body.team_id,
-        'normal' //user_del 状态
+        'normal', //user_del 状态
+        req.body.user_team_status
     ]
     var sqlQuery = "select * from "+tableName+" where user_id = '" + req.body.user_id+"' and team_id = '"+req.body.team_id+"'";//用于查询是否存在同名的
     connectDB.query(sqlQuery,function(result){
@@ -69,7 +76,6 @@ router.post('/addUserTeam', function (req, res) {
             })
         }
     })
-
 });
 //更新信息
 router.post('/updateUserTeam', function (request, response) {
@@ -87,10 +93,12 @@ router.post('/updateUserTeam', function (request, response) {
                     var user_id = checkUpdateData(req.body.user_id,result.data[0].user_id);
                     var team_id = checkUpdateData(req.body.team_id,result.data[0].team_id);
                     var user_team_del = checkUpdateData(req.body.user_team_del,result.data[0].user_team_del);
+                    var user_team_status = checkUpdateData(req.body.user_team_status,result.data[0].user_team_status);
 
                     var sql  =  "update "+tableName+" set user_id = '"+user_id
                     +"' , team_id = '"+team_id
                     +"' , user_team_del = '"+user_team_del
+                    +"' , user_team_status = '"+user_team_status
                     +"' where "+tableKey+" = "+user_team_id;
                 connectDB.update(sql,function(result){
                     console.log(result);
