@@ -78,6 +78,53 @@ router.post('/addUserTeam', function (req, res) {
         }
     })
 });
+
+
+//根据user_id和team_id更新申请信息
+router.post('/operateUserTeamApply', function (request, response) {
+    var req = request;
+    var res = response;
+    var team_id = req.body.team_id;
+    var user_id = req.body.user_id;
+    if (user_id==null||team_id==null) {
+        return res.jsonp("user_id or team_id is null! please check!");
+    }
+    connectDB.query("select * from "+tableName+" where user_id = '"+user_id+"' and team_id = '"+team_id+"'",function(result){
+        if (result.status=="200") {
+            if (result.data[0]!=null) {
+                console.log(checkUpdateData("dsadsa","adsadsa"));
+                    var user_team_id = result.data[0].user_team_id;
+                    var user_id = checkUpdateData(req.body.user_id,result.data[0].user_id);
+                    var team_id = checkUpdateData(req.body.team_id,result.data[0].team_id);
+                    var user_team_del = checkUpdateData(req.body.user_team_del,result.data[0].user_team_del);
+                    var user_team_status = checkUpdateData(req.body.user_team_status,result.data[0].user_team_status);
+
+                    var sql  =  "update "+tableName+" set user_id = '"+user_id
+                    +"' , team_id = '"+team_id
+                    +"' , user_team_del = '"+user_team_del
+                    +"' , user_team_status = '"+user_team_status
+                    +"' where "+tableKey+" = "+user_team_id;
+                connectDB.update(sql,function(result){
+                    console.log(result);
+                    return res.jsonp(result);
+                })
+            }else{
+                var result = {
+                    "status": "201",
+                    "message": "failed"
+                }
+                return res.jsonp(result);
+            }
+        }else{
+            var result = {
+                    "status": "201",
+                    "message": "failed"
+                }
+            return res.jsonp(result);
+        }
+    })
+});
+
 //更新信息
 router.post('/updateUserTeam', function (request, response) {
     var req = request;
