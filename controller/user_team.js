@@ -43,7 +43,7 @@ router.post('/getTeamMember',function (req, res) {
 
 //添加
 router.post('/addUserTeam', function (req, res) {
-    var sql = "insert into "+tableName+"(user_id,team_id,user_team_del,user_team_status) value (?,?,?)";
+    var sql = "insert into "+tableName+"(user_id,team_id,user_team_del,user_team_status) value (?,?,?,?)";
     var sqlparams = [
         req.body.user_id,
         req.body.team_id,
