@@ -28,7 +28,7 @@ router.post('/getUserMatch',function (req, res) {
 
 //根据user_id获取报名信息（获取个人报名的所有项目）
 router.post('/getUserMatchByUserId',function (req, res) {
-    var sql = "select * from "+tableName+" where user_id = "+req.body.user_id +" and "+tableDelete+" != 'delete'";
+    var sql = "select a.* from "+tableName+" a,matchs b where user_id = "+req.body.user_id +" and "+tableDelete+" != 'delete' and a.match_id = b.match_id and b.match_del != 'delete'";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
