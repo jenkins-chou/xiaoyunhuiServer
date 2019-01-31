@@ -11,7 +11,7 @@ var tableDelete = "team_del";//删除标志位
 
 //获取所有数据
 router.post('/getTeams', function (req, res) {
-    var sql = "select * from "+tableName+"";
+    var sql = "select * from "+tableName+" and "+tableDelete+" != 'delete'";
     connectDB.query(sql,function(result){
         return res.jsonp(result);
     })
@@ -47,7 +47,7 @@ router.post('/getTeamListByCreater',function (req, res) {
 //根据user_id获取用户参与的团队列表
 router.post('/getTeamListByUserId',function (req, res) {
 
-    var sql = "select * from "+tableName+" where team_id = any(select team_id from user_team where user_id = "+req.body.user_id +")";
+    var sql = "select * from "+tableName+" where team_id = any(select team_id from user_team where user_id = "+req.body.user_id +")"+" and "+tableDelete+" != 'delete'";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
@@ -57,7 +57,7 @@ router.post('/getTeamListByUserId',function (req, res) {
 //根据user_id获取用户未参与的团队列表
 router.post('/getTeamListExceptUserId',function (req, res) {
     var user_id = req.body.user_id;
-    var sql = "select * from team where team_create_user != "+user_id+" and team_id not in(select team_id from user_team where user_id = "+user_id+")";
+    var sql = "select * from team where team_create_user != "+user_id+" and team_id not in(select team_id from user_team where user_id = "+user_id+")"+" and "+tableDelete+" != 'delete'";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
