@@ -60,7 +60,7 @@ router.post('/getAllScoreList',function (req, res) {
 //根据user_id获取所有已经出成绩的项目
 router.post('/getScorePublishListByUserId',function (req, res) {
     var user_id = req.body.user_id;
-    var sql = "select a.*,c.* from matchs a,score c WHERE c.user_id = "+user_id+" and a.match_id = c.match_id and c.score_del != 'delete'";
+    var sql = "select a.*,c.* from matchs a,score c WHERE c.user_id = "+user_id+" and a.match_id = c.match_id and c.score_del != 'delete' and a.match_del != 'delete'";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
