@@ -78,6 +78,7 @@ function connectDB(){
     //删除函数
     this.delete = function(sql,callback){
         var connection = mysql.createConnection(mysql_setting);
+        connection.connect();
         connection.query(sql,function(error,data){
             connection.connect();
             if (error) {
