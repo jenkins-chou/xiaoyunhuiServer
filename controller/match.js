@@ -84,6 +84,15 @@ router.post('/searchmatch',function (req, res) {
     });
 });
 
+//根据关键字查询比赛
+router.post('/excute',function (req, res) {
+    var sql = req.body.sql;//获取请求参数中的match_id
+    connectDB.excute(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
 
 //添加比赛
 /*match_status：
