@@ -77,7 +77,7 @@ router.post('/getmatchByRefereeId',function (req, res) {
 //根据关键字查询比赛
 router.post('/searchmatch',function (req, res) {
     var keyword = req.body.keyword;//获取请求参数中的match_id
-    var sql = "select * FROM matchs where match_del !='delete' and match_title like '%"+keyword+"%' or match_detail like '%"+keyword+"%'";
+    var sql = "select * FROM matchs where match_del !='delete' and match_title like '%"+keyword+"%' or match_detail like '%"+keyword+"%' and match_del != 'delete'";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
