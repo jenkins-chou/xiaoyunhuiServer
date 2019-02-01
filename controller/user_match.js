@@ -66,7 +66,7 @@ router.post('/addUserMatch', function (req, res) {
         req.body.user_match_status,
         req.body.score_id
     ]
-    var sqlQuery = "select * from "+tableName+" where user_id = '" + req.body.user_id+"' and match_id = '"+req.body.match_id+"'";//用于查询是否存在同名的
+    var sqlQuery = "select * from "+tableName+" where user_id = '" + req.body.user_id+"' and match_id = '"+req.body.match_id+"' and user_match_del != 'delete'";//用于查询是否存在同名的
     connectDB.query(sqlQuery,function(result){
         console.log(result);
         if(result.data[0]!=null){
