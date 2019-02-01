@@ -146,7 +146,7 @@ router.post('/deleteUserMatch2', function (req, res) {
     if (user_id==null||match_id==null) {
         return res.jsonp("user_id is null! please check!");
     }else{
-        var sql = "update "+tableName+" set "+tableDelete+" = 'delete' where match_id = "+user_id+" and user_id ="+user_id;
+        var sql = "update "+tableName+" set "+tableDelete+" = 'delete' where match_id = "+match_id+" and user_id ="+user_id;
         connectDB.delete(sql,function(result){
             console.log(result);
             return res.jsonp(result);
