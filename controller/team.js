@@ -64,6 +64,17 @@ router.post('/getTeamListExceptUserId',function (req, res) {
     });
 });
 
+//根据user_id和关键字搜索用户未参与的团队列表
+router.post('/searchTeamListExceptUserId',function (req, res) {
+    var user_id = req.body.user_id;
+    var team_keyword = req.body.team_keyword;
+    var sql = "select * from team where team_create_user != "+user_id+" and team_id not in(select team_id from user_team where user_id = "+user_id+") and team_name like '%"+team_keyword+"%'"+" and "+tableDelete+" != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
 
 
 //添加
