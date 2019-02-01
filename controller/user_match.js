@@ -138,6 +138,23 @@ router.post('/updateUserMatch', function (request, response) {
         }
     })
 });
+
+//根据user_id和match_id删除报名信息
+router.post('/deleteUserMatch2', function (req, res) {
+    var user_id = req.body.user_id;
+    var match_id = req.body.match_id;
+    if (user_id==null||match_id==null) {
+        return res.jsonp("user_id is null! please check!");
+    }else{
+        var sql = "update "+tableName+" set "+tableDelete+" = 'delete' where match_id = "+user_id+" and user_id ="+user_id;
+        connectDB.delete(sql,function(result){
+            console.log(result);
+            return res.jsonp(result);
+        })
+    }
+});
+
+//根据user_match_id删除比赛报名信息
 router.post('/deleteUserMatch', function (req, res) {
     var user_match_id = req.body.user_match_id;
     if (user_match_id==null) {
