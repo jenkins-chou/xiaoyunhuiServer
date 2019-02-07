@@ -47,13 +47,11 @@ router.post('/getUserMatchByMatchId',function (req, res) {
 
 //根据match_id获取报名信息(用户详细信息)
 router.post('/getUserMatchDetailByMatchId',function (req, res) {
-    var sql = "select * from user where user_id = any(select user_id from user_match where match_id = "+req.body.match_id +" and "+tableDelete+" != 'delete')";
+    var sql = "select * from user a,user_match b where a.user_id = any(select user_id from user_match where match_id = "+req.body.match_id +" and "+tableDelete+" != 'delete') and a.user_id = b.user_id and b.match_id = "+req.body.match_id;
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
     });
-
-
 });
 
 //添加
