@@ -165,6 +165,16 @@ router.post('/deleteUserMatch', function (req, res) {
         })
     }
 });
+
+//修改比赛报名分组信息
+router.post('/updateUserMatchs', function (req, res) {
+    var sql = req.body.sql;
+    connectDB.excute(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    })
+});
+
 //更新时，用于校验是否是否有更新字段值
 function checkUpdateData(target,current){
     if (target == null||target =="") {
