@@ -8,7 +8,7 @@ connectDB = new connectDB();
 
 //获取所有数据
 router.post('/getmatchs', function (req, res) {
-    var sql = "select * from matchs where match_del != 'delete' order by match_time";
+    var sql = "select * from matchs where match_del != 'delete' order by match_time DESC";
     connectDB.query(sql,function(result){
         return res.jsonp(result);
     })
