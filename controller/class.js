@@ -96,7 +96,7 @@ router.post('/deleteclass', function (req, res) {
     if (class_id==null) {
         return res.jsonp("class_id is null! please check!");
     }else{
-        var sql = "delete class where class_id = "+class_id;
+        var sql = "delete from class where class_id = "+class_id;
         connectDB.delete(sql,function(result){
             console.log(result);
             return res.jsonp(result);
