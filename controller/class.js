@@ -16,7 +16,7 @@ router.post('/getAllClass', function (req, res) {
 //根据id获取用户信息
 router.post('/getClass',function (req, res) {
     var class_id = req.body.class_id;//获取请求参数中的user_id
-    var sql = "select a.*,b.school_name from class a,school b where a.school_id = b.school_id class_id = "+class_id;
+    var sql = "select a.*,b.school_name from class a,school b where a.school_id = b.school_id and class_id = "+class_id;
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
