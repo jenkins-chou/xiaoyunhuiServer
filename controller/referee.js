@@ -9,7 +9,7 @@ var tableName = "referee";//表名
 
 //获取所有数据
 router.post('/getReferees', function (req, res) {
-    var sql = "select * from "+tableName+"";
+    var sql = "select * from "+tableName+" where referee_del != 'delete'";
     connectDB.query(sql,function(result){
         return res.jsonp(result);
     })
