@@ -8,27 +8,101 @@ connectDB = new connectDB();
 
 //获取所有数据
 router.post('/getmatchs', function (req, res) {
-    var sql = "select * from matchs where match_del != 'delete'";
+    var sql = "select * from matchs where match_del != 'delete' order by match_time DESC";
     connectDB.query(sql,function(result){
         return res.jsonp(result);
     })
 });
 
-//根据id获取比赛信息
-router.post('/getmatch',function (req, res) {
-    var match_id = req.body.match_id;//获取请求参数中的match_id
-    var sql = "select * from matchs where match_id = "+match_id +"match_del != 'delete'";
+//根据status获取比赛信息
+router.post('/getmatchByStatus',function (req, res) {
+    var match_status = req.body.match_status;//获取请求参数中的match_id
+    var sql = "select * from matchs where match_status = "+match_status +" and match_del != 'delete'";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
     });
 });
 
+//根据id获取比赛信息
+router.post('/getmatch',function (req, res) {
+    var match_id = req.body.match_id;//获取请求参数中的match_id
+    var sql = "select * from matchs where match_id = "+match_id +" and match_del != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
+//根据id获取比赛详情信息
+router.post('/getmatchDetail',function (req, res) {
+    var match_id = req.body.match_id;//获取请求参数中的match_id
+    var sql = "select a.*,b.match_type_name,d.user_name,e.* from matchs a,match_type b,referee c,user d,school e where a.match_id = "+match_id +" and a.match_del != 'delete' and a.match_type = b.match_type_id and c.user_id = d.user_id and a.match_referee_id = c.referee_id and a.match_organizers = e.school_id; "
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
+//根据类型获取比赛
+router.post('/getmatchByType',function (req, res) {
+    var match_type = req.body.match_type;//获取请求参数中的match_id
+    var sql = "select * from matchs where match_type = '"+match_type +"' and match_del != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
+//根据userid获取比赛
+router.post('/getmatchByUserId',function (req, res) {
+    var user_id = req.body.user_id;//获取请求参数中的match_id
+    var sql = "select * FROM matchs where match_del !='delete' and match_id = any(select match_id from user_match where user_id = '"+user_id+"' and user_match_del !='delete')GROUP BY match_id";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
+//根据refereeid获取比赛
+router.post('/getmatchByRefereeId',function (req, res) {
+    var user_id = req.body.user_id;//获取请求参数中的match_id
+    var sql = "select * FROM matchs where match_del != 'delete' and match_referee_id = any(select referee_id from referee where user_id = '"+user_id+"')";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
+//根据关键字查询比赛
+router.post('/searchmatch',function (req, res) {
+    var keyword = req.body.keyword;//获取请求参数中的match_id
+    var sql = "select * FROM matchs where match_del !='delete' and match_title like '%"+keyword+"%' or match_detail like '%"+keyword+"%' and match_del != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
+//根据关键字查询比赛
+router.post('/excute',function (req, res) {
+    var sql = req.body.sql;//获取请求参数中的match_id
+    connectDB.excute(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
 
 
-//添加用户
+//添加比赛
+/*match_status：
+比赛状态：
+1：报名中
+2：比赛中
+3：比赛完毕
+*/
 router.post('/addmatch', function (req, res) {
-    var sql = "insert into matchs(match_title,match_time,match_create_time,match_referee_id,match_manager,match_abstract,match_detail,match_athletes_num,match_status,match_organizers,match_del) value (?,?,?,?,?,?,?,?,?,?,?)";
+    var sql = "insert into matchs(match_title,match_time,match_create_time,match_referee_id,match_manager,match_abstract,match_detail,match_athletes_num,match_status,match_organizers,match_del,match_type,match_img,match_address) value (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     var sqlparams = [
         req.body.match_title,
         req.body.match_time,
@@ -40,11 +114,14 @@ router.post('/addmatch', function (req, res) {
         req.body.match_athletes_num,
         req.body.match_status,
         req.body.match_organizers,
-        'normal'
+        'normal',
+        req.body.match_type,
+        req.body.match_img,
+        req.body.match_address
     ]
     connectDB.add(sql,sqlparams,function(result){
         console.log(result);
-        return res.jsonp(result); 
+        return res.jsonp(result);
     })
 });
 //更新用户信息

@@ -9,13 +9,12 @@ var tableName = "match_type";//表名
 
 //获取所有数据
 router.post('/getAllMatchType', function (req, res) {
-    var sql = "select * from "+tableName+"";
+    var sql = "select * from "+tableName+" where match_type_del != 'delete'";
     connectDB.query(sql,function(result){
         return res.jsonp(result);
     })
 });
 
-//根据id获取用户信息
 router.post('/getMatchType',function (req, res) {
     var match_type_id = req.body.match_type_id;//获取请求参数中的user_id
     var sql = "select * from "+tableName+" where match_type_id = "+match_type_id +" and match_type_del != 'delete'";
@@ -37,7 +36,7 @@ router.post('/addMatchType', function (req, res) {
         req.body.match_type_create_time,
         'normal' //delete 状态
     ]
-    var sqlQuery = "select * from "+tableName+" where match_type_name = '" + req.body.match_type_name+"'";//用于查询是否存在同名用户的
+    var sqlQuery = "select * from "+tableName+" where match_type_name = '" + req.body.match_type_name+"'"+" and match_type_del != 'delete'";//用于查询是否存在同名用户的
     connectDB.query(sqlQuery,function(result){
         console.log(result);
         if(result.data[0]!=null){
@@ -53,7 +52,7 @@ router.post('/addMatchType', function (req, res) {
             connectDB.add(sql,sqlparams,function(result){
                 console.log(result);
                 if (result.status=="200") {
-                    var sqlQueryAgain = "select * from "+tableName+" where match_type_name = '" + req.body.match_type_name+"'";
+                    var sqlQueryAgain = "select * from "+tableName+" where match_type_name = '" + req.body.match_type_name+"'"+" and match_type_del != 'delete'";
                     connectDB.query(sqlQueryAgain,function(resultAgain){
                         return res.jsonp(resultAgain);
                     })

@@ -9,7 +9,7 @@ var tableName = "referee";//表名
 
 //获取所有数据
 router.post('/getReferees', function (req, res) {
-    var sql = "select * from "+tableName+" where referee_del != 'delete'";
+    var sql = "select * from "+tableName+" a,user b where a.user_id = b.user_id and referee_del != 'delete'";
     connectDB.query(sql,function(result){
         return res.jsonp(result);
     })
@@ -18,6 +18,19 @@ router.post('/getReferees', function (req, res) {
 //根据id获取信息
 router.post('/getReferee',function (req, res) {
     var sql = "select * from "+tableName+" where referee_id = "+req.body.referee_id +" and referee_del != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
+//根据状态获取裁判员
+/*
+1:申请中
+2:已成为裁判
+*/
+router.post('/getRefereeByStatus',function (req, res) {
+    var sql = "select * from "+tableName+" a,user b where a.user_id = b.user_id and referee_status = "+req.body.referee_status +" and referee_del != 'delete'";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
@@ -68,7 +81,11 @@ router.post('/updateReferee', function (request, response) {
     var referee_id = req.body.referee_id;
 
     if (referee_id==null) {
-        return res.jsonp("referee_id is null! please check!");
+        var result = {
+                    "status": "201",
+                    "message": "请确认信息正确性"
+        }
+        return res.jsonp(result);
     }
     //console.log("hahahhah");
     connectDB.query("select * from "+tableName+" where referee_id = "+referee_id,function(result){
@@ -79,14 +96,21 @@ router.post('/updateReferee', function (request, response) {
                     var referee_status = checkUpdateData(req.body.referee_status,result.data[0].referee_status);
                     var referee_manager = checkUpdateData(req.body.referee_manager,result.data[0].referee_manager);
                     var sql  =  "update "+tableName+" set user_id = '"+user_id+"' , referee_status = '"+referee_status+"' , referee_manager = '"+referee_manager+"' where user_id = "+user_id;
+                    var sql2 = "update user set user_type = '"+referee_status+"' where user_id = '"+user_id+"'";
+                
                 connectDB.update(sql,function(result){
                     console.log(result);
-                    return res.jsonp(result);
+                    connectDB.update(sql2,function(result){
+                        console.log(result);
+                        return res.jsonp(result);
+                    })
                 })
+
+
             }else{
                 var result = {
                     "status": "201",
-                    "message": "failed"
+                    "message": "请确认信息正确性"
                 }
                 return res.jsonp(result);
             }

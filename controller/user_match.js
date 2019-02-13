@@ -11,7 +11,7 @@ var tableDelete = "user_match_del";//删除标志位
 
 //获取所有数据
 router.post('/getUserMatchs', function (req, res) {
-    var sql = "select * from "+tableName+"";
+    var sql = "select * from "+tableName+"  where "+tableDelete+" != 'delete'";
     connectDB.query(sql,function(result){
         return res.jsonp(result);
     })
@@ -26,17 +26,45 @@ router.post('/getUserMatch',function (req, res) {
     });
 });
 
+//根据user_id获取报名信息（获取个人报名的所有项目）
+router.post('/getUserMatchByUserId',function (req, res) {
+    var sql = "select a.* from "+tableName+" a,matchs b where user_id = "+req.body.user_id +" and "+tableDelete+" != 'delete' and a.match_id = b.match_id and b.match_del != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
 
+
+//根据match_id获取报名信息(获取所有user_id)
+router.post('/getUserMatchByMatchId',function (req, res) {
+    var sql = "select * from "+tableName+" where match_id = "+req.body.match_id +" and "+tableDelete+" != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
+//根据match_id获取报名信息(用户详细信息)
+router.post('/getUserMatchDetailByMatchId',function (req, res) {
+    var sql = "select a.*,b.*,c.*,d.* from user a,user_match b,school c,class d where a.user_id = any(select user_id from user_match where match_id = "+req.body.match_id +" and "+tableDelete+" != 'delete') and a.user_id = b.user_id and a.user_school = c.school_id and a.user_class = d.class_id and b.match_id = "+req.body.match_id+" and b.user_match_del != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
 
 //添加
 router.post('/addUserMatch', function (req, res) {
-    var sql = "insert into "+tableName+"(user_id,match_id,user_match_del) value (?,?,?)";
+    var sql = "insert into "+tableName+"(user_id,match_id,user_match_del,user_match_status,score_id) value (?,?,?,?,?)";
     var sqlparams = [
         req.body.user_id,
         req.body.match_id,
-        'normal' //user_del 状态
+        'normal', //delete 状态
+        req.body.user_match_status,
+        req.body.score_id
     ]
-    var sqlQuery = "select * from "+tableName+" where user_id = '" + req.body.user_id+"' and match_id = '"+req.body.match_id+"'";//用于查询是否存在同名的
+    var sqlQuery = "select * from "+tableName+" where user_id = '" + req.body.user_id+"' and match_id = '"+req.body.match_id+"' and user_match_del != 'delete'";//用于查询是否存在同名的
     connectDB.query(sqlQuery,function(result){
         console.log(result);
         if(result.data[0]!=null){
@@ -80,9 +108,13 @@ router.post('/updateUserMatch', function (request, response) {
                     var user_id = checkUpdateData(req.body.user_id,result.data[0].user_id);
                     var match_id = checkUpdateData(req.body.match_id,result.data[0].match_id);
                     var user_match_del = checkUpdateData(req.body.user_match_del,result.data[0].user_match_del);
+                    var user_match_status = checkUpdateData(req.body.user_match_status,result.data[0].user_match_status);
+                    var score_id = checkUpdateData(req.body.score_id,result.data[0].score_id);
                     var sql  =  "update "+tableName+" set user_id = '"+user_id
                     +"' , match_id = '"+match_id
                     +"' , user_match_del = '"+user_match_del
+                    +"' , user_match_status = '"+user_match_status
+                    +"' , score_id = '"+score_id
                     +"' where "+tableKey+" = "+user_match_id;
                 connectDB.update(sql,function(result){
                     console.log(result);
@@ -104,6 +136,23 @@ router.post('/updateUserMatch', function (request, response) {
         }
     })
 });
+
+//根据user_id和match_id删除报名信息
+router.post('/deleteUserMatch2', function (req, res) {
+    var user_id = req.body.user_id;
+    var match_id = req.body.match_id;
+    if (user_id==null||match_id==null) {
+        return res.jsonp("user_id is null! please check!");
+    }else{
+        var sql = "update "+tableName+" set "+tableDelete+" = 'delete' where match_id = "+match_id+" and user_id ="+user_id;
+        connectDB.delete(sql,function(result){
+            console.log(result);
+            return res.jsonp(result);
+        })
+    }
+});
+
+//根据user_match_id删除比赛报名信息
 router.post('/deleteUserMatch', function (req, res) {
     var user_match_id = req.body.user_match_id;
     if (user_match_id==null) {
@@ -116,6 +165,16 @@ router.post('/deleteUserMatch', function (req, res) {
         })
     }
 });
+
+//修改比赛报名分组信息
+router.post('/updateUserMatchs', function (req, res) {
+    var sql = req.body.sql;
+    connectDB.excute(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    })
+});
+
 //更新时，用于校验是否是否有更新字段值
 function checkUpdateData(target,current){
     if (target == null||target =="") {

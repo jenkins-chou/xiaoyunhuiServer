@@ -16,7 +16,7 @@ router.post('/getAllClass', function (req, res) {
 //根据id获取用户信息
 router.post('/getClass',function (req, res) {
     var class_id = req.body.class_id;//获取请求参数中的user_id
-    var sql = "select * from class where class_id = "+class_id;
+    var sql = "select a.*,b.school_name from class a,school b where a.school_id = b.school_id and class_id = "+class_id;
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
@@ -96,7 +96,7 @@ router.post('/deleteclass', function (req, res) {
     if (class_id==null) {
         return res.jsonp("class_id is null! please check!");
     }else{
-        var sql = "delete class where class_id = "+class_id;
+        var sql = "delete from class where class_id = "+class_id;
         connectDB.delete(sql,function(result){
             console.log(result);
             return res.jsonp(result);

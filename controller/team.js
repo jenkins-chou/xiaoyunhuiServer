@@ -11,7 +11,7 @@ var tableDelete = "team_del";//删除标志位
 
 //获取所有数据
 router.post('/getTeams', function (req, res) {
-    var sql = "select * from "+tableName+"";
+    var sql = "select * from "+tableName+" and "+tableDelete+" != 'delete'";
     connectDB.query(sql,function(result){
         return res.jsonp(result);
     })
@@ -20,6 +20,55 @@ router.post('/getTeams', function (req, res) {
 //根据id获取信息
 router.post('/getTeam',function (req, res) {
     var sql = "select * from "+tableName+" where "+tableKey+" = "+req.body.team_id +" and "+tableDelete+" != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
+//根据id获取团队详细信息
+router.post('/getTeamDetail',function (req, res) {
+    var sql = "select a.*,b.* from "+tableName+" a,user b where a."+tableKey+" = "+req.body.team_id +" and a.team_create_user = b.user_id and "+tableDelete+" != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
+//根据team_create_user获取团队列表
+router.post('/getTeamListByCreater',function (req, res) {
+    var sql = "select * from "+tableName+" where team_create_user = "+req.body.team_create_user +" and "+tableDelete+" != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
+//根据user_id获取用户参与的团队列表
+router.post('/getTeamListByUserId',function (req, res) {
+
+    var sql = "select * from "+tableName+" where team_id = any(select team_id from user_team where user_id = "+req.body.user_id +" and user_team_status = '2')"+" and "+tableDelete+" != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
+//根据user_id获取用户未参与的团队列表
+router.post('/getTeamListExceptUserId',function (req, res) {
+    var user_id = req.body.user_id;
+    var sql = "select * from team where team_create_user != "+user_id+" and team_id not in(select team_id from user_team where user_id = "+user_id+")"+" and "+tableDelete+" != 'delete'";
+    connectDB.query(sql,function(result){
+        console.log(result);
+        return res.jsonp(result);
+    });
+});
+
+//根据user_id和关键字搜索用户未参与的团队列表
+router.post('/searchTeamListExceptUserId',function (req, res) {
+    var user_id = req.body.user_id;
+    var team_keyword = req.body.team_keyword;
+    var sql = "select * from team where team_create_user != "+user_id+" and team_id not in(select team_id from user_team where user_id = "+user_id+") and team_name like '%"+team_keyword+"%'"+" and "+tableDelete+" != 'delete'";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
