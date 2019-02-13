@@ -95,7 +95,13 @@ router.post('/updateReferee', function (request, response) {
                     var user_id = checkUpdateData(req.body.user_id,result.data[0].user_id);
                     var referee_status = checkUpdateData(req.body.referee_status,result.data[0].referee_status);
                     var referee_manager = checkUpdateData(req.body.referee_manager,result.data[0].referee_manager);
-                    var sql  =  "update "+tableName+" set user_id = '"+user_id+"' , referee_status = '"+referee_status+"' , referee_manager = '"+referee_manager+"' where user_id = "+user_id;
+                    var referee_del = checkUpdateData(req.body.referee_del,result.data[0].referee_del);
+                    var sql  =  "update "+tableName
+                    +" set user_id = '"+user_id
+                    +"' , referee_status = '"+referee_status
+                    +"' , referee_manager = '"+referee_manager
+                    +"' , referee_del = '"+referee_del
+                    +"' where user_id = "+user_id;
                     var sql2 = "update user set user_type = '"+referee_status+"' where user_id = '"+user_id+"'";
                 
                 connectDB.update(sql,function(result){
