@@ -49,7 +49,7 @@ router.post('/getScoreListByMatchId',function (req, res) {
 
 //获取所有人员的成绩和个人信息
 router.post('/getAllScoreList',function (req, res) {
-    var sql = "SELECT a.*,b.*,c.* from user a,score b,matchs c where a.user_id = any(select user_id from score where score_del != 'delete') and a.user_id = b.user_id and b.match_id = c.match_id and c.match_del != 'delete'";
+    var sql = "SELECT a.*,b.*,c.* from user a,score b,matchs c where a.user_id = any(select user_id from score where score_del != 'delete') and a.user_id = b.user_id and b.match_id = c.match_id and c.match_del != 'delete' and b.score_del!='delete'";
     connectDB.query(sql,function(result){
         console.log(result);
         return res.jsonp(result);
