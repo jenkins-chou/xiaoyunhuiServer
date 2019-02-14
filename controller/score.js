@@ -11,7 +11,7 @@ var tableDelete = "score_del";//删除标志位
 
 //获取所有数据
 router.post('/getScores', function (req, res) {
-    var sql = "select * from "+tableName+"";
+    var sql = "select * from "+tableName+" where score_del != 'delete'";
     connectDB.query(sql,function(result){
         return res.jsonp(result);
     })
