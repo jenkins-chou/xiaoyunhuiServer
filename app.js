@@ -16,6 +16,7 @@ var teamController = require("./controller/team")
 var userMatchController = require("./controller/user_match")
 var userTeamController = require("./controller/user_team")
 var uploadController = require("./controller/upload")
+var errorController = require("./controller/operate_record")
 
 //var urlencodedParser = bodyParser.urlencoded({extended:false})
 app.use(express.static('public'));//静态文件
@@ -45,6 +46,7 @@ app.use('/team',teamController)
 app.use('/userMatch',userMatchController)
 app.use('/userTeam',userTeamController)
 app.use('/upload',uploadController)
+app.use('/error',errorController)
 
 app.listen(8888)
 console.log("数据服务器已打开, 端口: 8888");
