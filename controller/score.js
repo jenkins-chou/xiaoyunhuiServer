@@ -69,7 +69,7 @@ router.post('/getScorePublishListByUserId',function (req, res) {
 
 //添加
 router.post('/addScore', function (req, res) {
-    var sql = "insert into "+tableName+"(match_id,user_id,referee_id,score_value,score_create_time,score_detail,score_remark,score_publish_time,score_del,score_unit) value (?,?,?,?,?,?,?,?,?,?)";
+    var sql = "insert into "+tableName+"(match_id,user_id,referee_id,score_value,score_create_time,score_detail,score_remark,score_publish_time,score_del,score_unit,score_integral) value (?,?,?,?,?,?,?,?,?,?,?)";
     var sqlparams = [
         req.body.match_id,
         req.body.user_id,
@@ -80,7 +80,8 @@ router.post('/addScore', function (req, res) {
         req.body.score_remark,
         req.body.score_publish_time,
         'normal', //user_del 状态
-        req.body.score_unit
+        req.body.score_unit,
+        req.body.score_integral
     ]
     connectDB.add(sql,sqlparams,function(result){
                 console.log(result);
@@ -130,6 +131,7 @@ router.post('/updateScore', function (request, response) {
                     var score_publish_time = checkUpdateData(req.body.score_publish_time,result.data[0].score_publish_time);
                     var score_del = checkUpdateData(req.body.score_del,result.data[0].score_del);
                     var score_unit = checkUpdateData(req.body.score_unit,result.data[0].score_unit);
+                    var score_integral = checkUpdateData(req.body.score_integral,result.data[0].score_integral);
                     var sql  =  "update "+tableName
                     +" set match_id = '"+match_id
                     +"' , user_id = '"+user_id
@@ -141,6 +143,7 @@ router.post('/updateScore', function (request, response) {
                     +"' , score_publish_time = '"+score_publish_time
                     +"' , score_del = '"+score_del
                     +"' , score_unit = '"+score_unit
+                    +"' , score_integral = '"+score_integral
                     +"' where score_id = "+score_id;
                     connectDB.update(sql,function(result){
                     console.log(result);
