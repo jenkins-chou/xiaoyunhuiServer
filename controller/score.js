@@ -181,8 +181,8 @@ router.post('/deleteScore', function (req, res) {
 router.post('/getAllScoreIntegral', function (req, res) {
     var sql = "select a.score_value,a.score_unit,a.score_integral,b.user_name,d.team_name,e.match_title,e.match_time,e.match_address "
                 +"from score a,user b,user_team c,team d,matchs e "
-                +"where a.user_id = b.user_id and b.user_id = c.user_id and c.team_id = d.team_id and a.match_id = e.match_id and a.score_del != 'delete' and b.user_del != 'delete' and c.user_team_del != 'delete' and d.team_del != 'delete' and e.match_del !='delete' order by d.team_name;";
-    connectDB.delete(sql,function(result){
+                +"where a.user_id = b.user_id and b.user_id = c.user_id and c.team_id = d.team_id and a.match_id = e.match_id and a.score_del != 'delete' and b.user_del != 'delete' and c.user_team_del != 'delete' and d.team_del != 'delete' and e.match_del !='delete' order by d.team_name";
+    connectDB.excute(sql,function(result){
             console.log(result);
             return res.jsonp(result);
         })
